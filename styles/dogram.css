@@ -1,3 +1,15 @@
+@font-face{
+    font-family: airstream;
+    src: url("../fonts/Airstream-webfont.svg");
+    src: url("../fonts/Airstream-webfont.woff");
+}
+
+@font-face{
+    font-family: lakeshor;
+    src: url("../fonts/LAKESHOR-webfont.svg");
+    src: url("../fonts/LAKESHOR-webfont.woff");
+}
+
 :root {
     --thumbnails-img-width: 20vw;
     --thumbnails-img-height: calc(var(--thumbnails-img-width) * 0.79);
@@ -20,6 +32,10 @@ header {
     font-size: 1.6em;
     margin-top: 1vh;
     margin-bottom: 1vh;
+    text-transform: uppercase;
+    letter-spacing: 1.2em;
+    margin-left: 1.2em;
+    font-family: lakeshor;
 }
 
 main {
@@ -51,6 +67,7 @@ main {
     position: absolute;
     left: -6vw;
     bottom: 2vh;
+    font-family: airstream;
 }
 
 .thumbnails-list {
@@ -63,7 +80,10 @@ main {
     padding-left: 20px;
     padding-right: 20px;
     margin-top: 6vh;
+}
 
+.thumbnails-ancor{
+    text-decoration: none;
 }
 
 .thumbnails-item {
@@ -74,6 +94,12 @@ main {
     min-height: calc(var(--thumbnails-img-height) + var(--thumbnails-title-height));
     margin-top: 3vh;
     overflow: hidden;
+}
+
+.thumbnails-item:hover{
+    border-color: rgb(1, 66, 1);
+    transform: scale(1.1);
+    
 }
 
 .thumbnails-image {
@@ -125,5 +151,16 @@ main {
 
     .details-title{
         font-size: 1.3em;
+    }
+}
+
+@media(min-width: 1000px){
+    .details-image {
+        width: 45vw;
+        height: 37vw;
+        border-radius: 20%;
+    }
+    html{
+        font-size: 1.5rem;
     }
 }
