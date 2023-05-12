@@ -1,12 +1,13 @@
 const detailsImageElement = document.querySelector(".details-image");
 const detailsTitleElement = document.querySelector(".details-title");
-const thumbnailsAncors = document.querySelectorAll(".thumbnails-ancor");
+const thumbnailsAnchors = document.querySelectorAll(".thumbnails-ancor");
 const detailsSectionElement = document.querySelector(".details-section");
-const HIDDEN = "hidden";
 const POINT_CLASS = "is-point";
-for(let i = 0; i < thumbnailsAncors.length; i++){
-    thumbnailsAncors[i].addEventListener("click", function() {
-        setDetails(thumbnailsAncors[i]);
+const mainSection = document.querySelector("main");
+const HIDDEN = "hidden";
+for(let i = 0; i < thumbnailsAnchors.length; i++){
+    thumbnailsAnchors[i].addEventListener("click", function() {
+        setDetails(thumbnailsAnchors[i]);
     })
 }
 function setDetails(anchor){
@@ -19,9 +20,9 @@ function setDetails(anchor){
     })
 }
 function showDetails(){
-    detailsSectionElement.classList.remove(HIDDEN);
+    mainSection.classList.remove(HIDDEN);
     
 }
 function hideDetails(){
-    detailsSection.classList.add(HIDDEN);
+    mainSection.classList.add(HIDDEN);
 }

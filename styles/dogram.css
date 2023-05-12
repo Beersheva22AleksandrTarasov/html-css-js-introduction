@@ -16,6 +16,21 @@
     --thumbnails-title-height: calc(var(--thumbnails-img-height) * 0.3);
 }
 
+main.hidden {
+    --thumbnails-img-width: 40vw;
+    --thumbnails-img-height: calc(var(--thumbnails-img-width) * 0.79);
+    --thumbnails-title-height: calc(var(--thumbnails-img-height) * 0.3);
+}
+
+.hidden .thumbnails-title{
+    font-size: 1.5em;
+}
+
+.hidden .thumbnails-list{
+    margin-top: 16px;
+    max-height: 85vh;
+}
+
 body {
     display: flex;
     flex-direction: column;
@@ -49,7 +64,7 @@ main {
     align-items: center;
     justify-content: center;
     transform: scale(1);
-    transition: 5s;
+    transition: 3s;
 }
 
 .details-image {
@@ -91,15 +106,15 @@ main {
 .thumbnails-item {
     border: solid 1px blue;
     border-radius: 25%;
-    min-width: var(--thumbnails-img-width);
     max-width: var(--thumbnails-img-width);
+    min-width: var(--thumbnails-img-width);
     min-height: calc(var(--thumbnails-img-height) + var(--thumbnails-title-height));
     margin-top: 3vh;
     overflow: hidden;
 }
 
 .thumbnails-item:hover{
-    border-color: rgb(1, 66, 1);
+    border-color: green;
     transform: scale(1.1);
     
 }
@@ -117,8 +132,12 @@ main {
     height: var(--thumbnails-title-height);
 }
 
-.hidden{
+.hidden .details-section{
     display: none;
+}
+
+.hidden{
+    
 }
 
 .is-point{
@@ -141,12 +160,26 @@ main {
         --thumbnails-title-height: calc(var(--thumbnails-img-height) * 0.25);
     }
 
+    main.hidden {
+        --thumbnails-img-width: 12vw;
+    }
+
+    .hidden .thumbnails-title{
+        font-size: 1.2em;
+    }
+
     .thumbnails-list {
         flex-wrap: nowrap;
         max-height: 80vh;
         flex-direction: column;
         justify-content: start;
         margin-left: 5vw;
+    }
+
+    .hidden .thumbnails-list{
+        flex-direction: row;
+        flex-wrap: wrap;
+        justify-content: space-around;
     }
 
     main {
@@ -179,7 +212,26 @@ main {
         height: 37vw;
         border-radius: 20%;
     }
+
+    main.hidden {
+        --thumbnails-img-width: 11vw;
+    }
+
     html{
         font-size: 2rem;
+    }
+
+    .hidden .thumbnails-title{
+        font-size: 0.9em;
+    }
+
+    .hidden .thumbnails-list{
+        max-height: 90vh;
+        margin-top: 10vh;
+    }
+
+    .hidden .thumbnails-item:hover{
+        margin-top: auto;
+        margin-bottom: auto;
     }
 }
