@@ -35,5 +35,63 @@
 // console.log(("A" + +"A" + "AS").toLowerCase());      // как написать слово ananas*
 
 function myToStringInt(number, radix){   
-
+    const sign = number < 0 ? '-' : '';
+    number = Math.abs(number);
+    number = Math.round(number);
+    if(radix < 2 || radix > 36){
+        radix = 10;
+    }
+    let result = '';
+    do{
+        result = getSymbol(number, radix) + result;
+        number = Math.trunc(number/radix);
+    }while(number != 0);
+    return sign + result;
 }
+function getSymbol(number, radix){
+    const aCode = 'a'.charCodeAt(0);
+    const delta = aCode - 10;
+    const remainder = number % radix;
+    return remainder < 10 ? remainder + '' : String.fromCharCode(remainder + delta);
+}
+
+// console.log(myToStringInt(123456789, 36));
+// console.log(myToStringInt(-123456789, 36));
+// console.log(myToStringInt(-123456789.1234, 36));
+// console.log(myToStringInt(0, 36));
+
+const strNum = '+01010100011';
+const radix = 2;
+// console.log(`string with number ${strNum} for redix ${radix} is ${parseInt(strNum, 2)}`);
+
+function myParseInt(strNum, radix){
+    strNum = strNum.trim();
+    let index = strNum.charAt(0) == '-' || strNum.charAt(0) == '+' ? 1 : 0;
+    let result = radix >1 && radix < 37 ? getDigitCode(strNum, index, radix) : NaN;
+    if(!isNaN(result)){
+        let digit;
+        index++;
+        while(index < strNum.length && !isNaN(digit = getDigitCode(strNum, index, radix))){
+            result = result * radix + digit;
+            index++;
+        }
+        if(strNum[0] == '-'){
+            result = -result;
+        }
+    }
+    return result;
+}
+
+function getDigitCode(strNum, index, radix){
+    const delta = 'a'.charCodeAt(0) - 10;
+    const symbol = strNum.charAt(index).toLowerCase();
+    const code = symbol >= '0' && symbol <= '9' ? +symbol : symbol.charCodeAt(0) - delta;
+    return code >= 0 && code < radix  ? code : NaN;
+}
+
+// console.log(`string with number ${strNum} for redix ${radix} is ${myParseInt(strNum, 2)}`);
+
+// --------------------------------------------------------------------------------------//
+
+let b;
+console.log(b);
