@@ -9,17 +9,22 @@ const playAgainButtonElement = document.getElementById('play-again-id');
 //global variables
 let count = 0;
 //functions
-function game(){
+function game() {
     const color = inputElement.value;
-    squareElement.style.backgroundColor = color;
-    count++;
-    if(count == nMoves){
-        finishGame();
+
+    if (color == squareElement.style.backgroundColor) {
+        alert('this color was in the previous move')
+    } else {
+        squareElement.style.backgroundColor = color;
+        count++;
+        if (count == nMoves) {
+            finishGame();
+        }
     }
     inputElement.value = '';
 
 }
-function startGame(){
+function startGame() {
     count = 0;
     goButtonElement.disabled = false;
     inputElement.readOnly = false;
@@ -27,7 +32,7 @@ function startGame(){
     resultMessageElement.innetHTML = '';
     playAgainButtonElement.hidden = true;
 }
-function finishGame(){
+function finishGame() {
     goButtonElement.disabled = true;
     inputElement.readOnly = true;
     playAgainButtonElement.hidden = false;
