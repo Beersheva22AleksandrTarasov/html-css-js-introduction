@@ -38,6 +38,19 @@ body {
 .input-field {
     padding: 3px;
 }
+.field-section{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+}
+
+.field-question{
+    display: flex;
+    flex-direction: column;
+    text-align: center;
+    align-items: center;
+    justify-content: center;
+}
 
 .game-field {
     list-style-type: none;
@@ -47,37 +60,36 @@ body {
     flex-direction: column;
 }
 
+.finish-button{
+    text-align: center;
+    /* display: flex;
+    flex-direction: row; */
+    width: 120px;
+    margin: auto;
+    margin-top: 20px;
+}
+
 .word-line {
     display: flex;
     flex-direction: row;
     margin: 6px;
     gap: 15px;
-    height: letterBlockSize;
+    /* height: var(--letterBlockSize); */
     justify-content: center;
-    vertical-align: middle;
 }
 
 .letter-block {
     height: var(--letterBlockSize);
     width: var(--letterBlockSize);
     line-height: var(--letterBlockSize);
-    /* border: 1px solid black; */
+    border: 1px solid black;
     font-size: calc(var(--letterBlockSize) * var(--letterSizeCoef));
     text-align: center;
-    color: white;
-
+    background-color: black;
 }
 
-.grey {
-    background-color: grey;
-}
-
-.yellow {
-    background-color: rgb(230, 230, 0);
-}
-
-.green {
-    background-color: rgb(106, 170, 100);
+.white {
+    background-color: white;
 }
 
 .result-section {

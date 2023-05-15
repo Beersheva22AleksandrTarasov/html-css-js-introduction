@@ -5,23 +5,26 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Wordly</title>
-    <link rel="stylesheet" href="styles/wordle.css">
+    <title>Wordle</title>
+    <link rel="stylesheet" href="styles/quiz.css">
 
 </head>
 
 <body>
     <section class="logo-section">
-        <img class="logo-img" src="images/worldeLogo.png" alt="worldeLogo">
+        <img class="logo-img" src="images/quiz-logo.png" alt="worldeLogo">
     </section>
 
     <section class="input-section">
-        <input class="input-field" id="input-id" placeholder="Enter a 5 letter word">
+        <input class="input-field" id="input-id">
         <button id="check-button-id">check</button>
     </section>
 
     <section class="field-section">
+        <p class="field-question" id="question-id">hello</p>
         <ul class="game-field" id="field-id"></ul>
+        <button class="finish-button" id="finish-button-id">I know the word</button>
+
     </section>
 
     <section class="result-section">
@@ -29,7 +32,7 @@
         <button id="play-again-id">play again</button>
     </section>
 
-    <script src="src/wordle.js"></script>
+    <script src="src/quiz.js"></script>
 </body>
 
 </html>
