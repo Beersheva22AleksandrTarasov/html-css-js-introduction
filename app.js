@@ -1,110 +1,49 @@
-// console.log("Hello world!");
-// let a = 5; //number
-// a = "hello"; //string
-// a = false; //boolean
-// let a  = 5 + "5";
-// console.log(a, typeof a);
-// a = a - 5;
-// console.log(a, typeof a);
-// a = "abc";
-// a /= 2;
-// console.log(a, typeof a);
-// a = "123";
-// // a -= 0;
-// a = +a;
-// console.log(a, typeof a);
-// if(a = 1){
-//     console.log("a is true");
-// }
-// console.log(a, typeof a);
-// let a = 1;
-// let b = 3;
-// let c = 2;
-// if(a < b < c){
-//     console.log("a < b < c is true")
-// }
-// let a = new Number(3);
-// console.log(a + 5, typeof a)
-// let a = 0.3456789;
-// console.log(a, typeof a);
-// a = a.toFixed(2);
-// console.log(a, typeof a);
-
-// Math.trunc, Math.round, 
-
-// console.log(("A" + +"A" + "AS").toLowerCase());      // как написать слово ananas*
-
-function myToStringInt(number, radix){   
-    const sign = number < 0 ? '-' : '';
-    number = Math.abs(number);
-    number = Math.round(number);
-    if(radix < 2 || radix > 36){
-        radix = 10;
-    }
-    let result = '';
-    do{
-        result = getSymbol(number, radix) + result;
-        number = Math.trunc(number/radix);
-    }while(number != 0);
-    return sign + result;
+// const person = {name: 'Vasya', id: 123, birthYear: 1990, 
+// address: {country: 'Israel', city: 'Rehovot'}};
+function createPerson(id, name, birthYear, country, city){
+    return {id, name, birthYear, 
+        address: {country, city}};
 }
-function getSymbol(number, radix){
-    const aCode = 'a'.charCodeAt(0);
-    const delta = aCode - 10;
-    const remainder = number % radix;
-    return remainder < 10 ? remainder + '' : String.fromCharCode(remainder + delta);
+const person1 = createPerson(123, 'Vasya', 1999, 'Israel', 'Rehovot');
+const person2 = createPerson(123, 'Vasya', 1999, 'Israel', 'Rehovot');
+// console.log(`person1 == person2 is ${person1 == person2}`);
+// first method
+// console.log(person1.name); 
+// second method
+// console.log(person1["id"]);
+function displayKeyValue(person, key1, key2){
+    if(key2){
+        console.log(`key1 ${key1}, key2 ${key2}, value is ${person[key1][key2]}`);
+    }else{
+        console.log(`key ${key1} is ${person[key1]}`);
+    }  
 }
-
-// console.log(myToStringInt(123456789, 36));
-// console.log(myToStringInt(-123456789, 36));
-// console.log(myToStringInt(-123456789.1234, 36));
-// console.log(myToStringInt(0, 36));
-
-const strNum = '0xff';
-let radix;
-console.log(`string with number ${strNum} for redix ${radix} is ${parseInt(strNum, radix)}`);
-
-function myParseInt(strNum, radix){
-    strNum = strNum.trim();
-    let index = strNum.charAt(0) == '-' || strNum.charAt(0) == '+' ? 1 : 0;
-
-    if((!radix || radix == 16) && getHexdecemalIndex(strNum.substring(index)) > 0){
-        index += 2;
-        radix = 16;
-    }
-
-    if(!radix){
-        radix = 10;
-    }
-
-    let result = radix > 1 && radix < 37 ? getDigitCode(strNum, index, radix) : NaN;
-    if(!isNaN(result)){
-        let digit;
-        index++;
-        while(index < strNum.length && !isNaN(digit = getDigitCode(strNum, index, radix))){
-            result = result * radix + digit;
-            index++;
-        }
-        if(strNum[0] == '-'){
-            result = -result;
-        }
-    }
-    return result;
+displayKeyValue(person1, 'address', 'city');
+// Method keys of Object returns array of key values
+console.log("keys", Object.keys(person1));
+// Method values of Object returns array of values
+console.log("values", Object.values(person1));
+// Method entries of Object returns array of arrays with key as first element and value second element
+console.log("entries", Object.entries(person1));
+const x = {};
+x["ab"] = 10;
+x["ab"]++;
+console.log(x["ab"]);
+function displayOccurrences(array){
+    // array of strings
+    // display strings with their coccurency counts in the descending order of the counts
+    // if counts are equaled then in ascending string values order
 }
-
-function getHexdecemalIndex(str){
-    return str.toLowerCase().startsWith('0x') ? 2 : 0;
-}
-
-function getDigitCode(strNum, index, radix){
-    const delta = 'a'.charCodeAt(0) - 10;
-    const symbol = strNum.charAt(index).toLowerCase();
-    const code = symbol >= '0' && symbol <= '9' ? +symbol : symbol.charCodeAt(0) - delta;
-    return code >= 0 && code < radix  ? code : NaN;
-}
+displayOccurrences(["lmn", "ab", "lmn", "c", "d", "ab", "a", "a", "lmn"]);
+/* lmn -> 3
+   a -> 2
+   ab -> 2
+   c -> 1
+   d -> 1 */
 
 
-console.log(`string with number ${strNum} for redix ${radix} is ${myParseInt(strNum, radix)}`);
 
-// --------------------------------------------------------------------------------------//
+
+
+
 
