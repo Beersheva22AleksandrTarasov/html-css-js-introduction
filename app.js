@@ -60,14 +60,24 @@ function getSymbol(number, radix){
 // console.log(myToStringInt(-123456789.1234, 36));
 // console.log(myToStringInt(0, 36));
 
-const strNum = '+01010100011';
-const radix = 2;
-// console.log(`string with number ${strNum} for redix ${radix} is ${parseInt(strNum, 2)}`);
+const strNum = '0xff';
+let radix;
+console.log(`string with number ${strNum} for redix ${radix} is ${parseInt(strNum, radix)}`);
 
 function myParseInt(strNum, radix){
     strNum = strNum.trim();
     let index = strNum.charAt(0) == '-' || strNum.charAt(0) == '+' ? 1 : 0;
-    let result = radix >1 && radix < 37 ? getDigitCode(strNum, index, radix) : NaN;
+
+    if((!radix || radix == 16) && getHexdecemalIndex(strNum.substring(index)) > 0){
+        index += 2;
+        radix = 16;
+    }
+
+    if(!radix){
+        radix = 10;
+    }
+
+    let result = radix > 1 && radix < 37 ? getDigitCode(strNum, index, radix) : NaN;
     if(!isNaN(result)){
         let digit;
         index++;
@@ -82,6 +92,10 @@ function myParseInt(strNum, radix){
     return result;
 }
 
+function getHexdecemalIndex(str){
+    return str.toLowerCase().startsWith('0x') ? 2 : 0;
+}
+
 function getDigitCode(strNum, index, radix){
     const delta = 'a'.charCodeAt(0) - 10;
     const symbol = strNum.charAt(index).toLowerCase();
@@ -89,9 +103,8 @@ function getDigitCode(strNum, index, radix){
     return code >= 0 && code < radix  ? code : NaN;
 }
 
-// console.log(`string with number ${strNum} for redix ${radix} is ${myParseInt(strNum, 2)}`);
+
+console.log(`string with number ${strNum} for redix ${radix} is ${myParseInt(strNum, radix)}`);
 
 // --------------------------------------------------------------------------------------//
 
-let b;
-console.log(b);
