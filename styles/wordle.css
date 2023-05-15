@@ -1,0 +1,87 @@
+:root {
+    --letterBlockSize: 40px;
+    --letterSizeCoef: 0.8;
+    --logoHeight: 40vh;
+    --logoWidthCoef: 2;
+}
+
+body {
+    display: flex;
+    flex-direction: column;
+    height: 100vh;
+    justify-content: baseline;
+    align-items: center;
+    overflow-y: hidden;
+}
+
+.logo-section {
+    height: 30vh;
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    overflow: hidden;
+}
+
+.logo-img {
+    height: var(--logoHeight);
+    width: calc(var(--logoHeight) * var(--logoWidthCoef));
+}
+
+.input-section {
+    display: flex;
+    flex-direction: row;
+    margin: 5px;
+    padding: 3px;
+}
+
+.input-field {
+    padding: 3px;
+}
+
+.game-field {
+    list-style-type: none;
+    padding: 0;
+    margin: 0;
+    display: flex;
+    flex-direction: column;
+}
+
+.word-line {
+    display: flex;
+    flex-direction: row;
+    margin: 6px;
+    gap: 15px;
+    height: letterBlockSize;
+    justify-content: center;
+    vertical-align: middle;
+}
+
+.letter-block {
+    height: var(--letterBlockSize);
+    width: var(--letterBlockSize);
+    line-height: var(--letterBlockSize);
+    /* border: 1px solid black; */
+    font-size: calc(var(--letterBlockSize) * var(--letterSizeCoef));
+    text-align: center;
+    color: white;
+
+}
+
+.grey {
+    background-color: grey;
+}
+
+.yellow {
+    background-color: rgb(230, 230, 0);
+}
+
+.green {
+    background-color: rgb(106, 170, 100);
+}
+
+.result-section {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
