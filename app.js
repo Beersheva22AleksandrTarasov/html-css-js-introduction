@@ -30,18 +30,35 @@ x["ab"] = 10;
 x["ab"]++;
 console.log(x["ab"]);
 function displayOccurrences(array){
+    const occurrences = getOccurrences(array);
+    Object.entries(occurrences).sort((e1, e2) => e1[1] == e2[1] ? e1[0].localeCompare(e2[0]) : e2[1] - e1[1])
+    .forEach(e => console.log(`${e[0]} -> ${e[1]}`))
     // array of strings
     // display strings with their coccurency counts in the descending order of the counts
     // if counts are equaled then in ascending string values order
 }
 displayOccurrences(["lmn", "ab", "lmn", "c", "d", "ab", "a", "a", "lmn"]);
+
+function getOccurrences(array) {
+    return array.reduce((obj, s) => ({ ...obj, [s]: obj[s] ? obj[s] + 1 : 1 }), {});
+}
+
 /* lmn -> 3
    a -> 2
    ab -> 2
    c -> 1
    d -> 1 */
 
-
+function isAnagram(word, anagram){
+    let res = false;
+    if(word.length === anagram.length){
+        word = word.toLowerCase();
+        anagram = anagram.toLowerCase();
+        const occurrences = getOccurrences(Array.from(word));
+        res = Array.from(anagram).every(s => occurrences[s]-- > 0);
+    }
+    return res;
+}
 
 
 
