@@ -1,20 +1,7 @@
-function displayOccurrences(strings) {
-    let countMap = {};
-    for (let i = 0; i < strings.length; i++) {
-        const str = strings[i];
-        if (countMap[str]) {
-            countMap[str] += 1;
-        }
-        else {
-            countMap[str] = 1;
-        }
-    }
-
-    let sortedKeys = Object.keys(countMap).sort((a, b) => countMap[b] - countMap[a]);
-    
-    for (let key of sortedKeys) {
-        console.log(key + " -> " + countMap[key]);
-    }
+function displayOccurrences(array) {
+    const occurrences = array.reduce((obj, s) => ({...obj, [s] : obj[s] ? obj[s] + 1 : 1}), {})
+    Object.entries(occurrences).sort((e1, e2) => e1[1] == e2[1] ? e1[0].localeCompare(e2[0]) : e2[1] - e1[1])
+    .forEach(e => console.log(`${e[0]} -> ${e[1]}`))
 }
 
 displayOccurrences(["lmn", "ab", "lmn", "c", "d", "ab", "a", "a", "lmn"]);
