@@ -15,7 +15,7 @@ function f3() {
 // promise.then(() => f1()).then(() => f2()).then(() => f3());
 
 function getId(predicate) {
-    const ids = [123, 124, 125];
+    const ids = [123, 124, 125, 126];
     const index = ids.findIndex(predicate);
     return new Promise((resolve, reject) => {
         return index < 0 ? reject('id not found') : resolve(ids[index])
@@ -28,9 +28,23 @@ function getCar(id) {
         '125': 'honda'
     }
     const car = cars[id];
-    return new Promise((resolve, reject) => setTimeout(() => car ? resolve(car) : reject('no car found'), 1000))
+    return new Promise((resolve, reject) =>
+        setTimeout(() => car ? resolve(car) : reject('no car found'), 1000))
 }
-function displayCar(predicate){
-    getId(predicate).then(id => getCar(id)).then(car => console.log(car)).catch(error => console.log(error))
+// function displayCar(predicate){
+//     getId(predicate).then(id => getCar(id)).then(car => console.log(car)).catch(error => console.log(error))
+// }
+
+async function displayCar(predicate) {
+    await sleep(2000);
+    try {
+        const id = await getId(predicate)
+        const car = await getCar(id);
+        console.log(car);
+    } catch (error) {
+        console.log(error)
+    }
 }
-displayCar(id => id == 125);
+displayCar(id => id == 126).then(() => console.log('thanks & good bye'));
+console.log('waiting for the data ...');
+
