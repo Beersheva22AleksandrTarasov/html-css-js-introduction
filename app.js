@@ -15,8 +15,8 @@ async function getTemperatures(lat, long, startDate, days, hourFrom, hourTo){
     // apperantTemperature: <number> }
     const endDate = getEndDate(startDate, days);
     const url = getUrl(lat, long, startDate, endDate);
-    const response = await fetch(url);
-    const data = response.json();
+    const response = fetch(url);
+    const data = await response.json();
     const dates = getDataForHours(data.hourly.time, hourFrom, hourTo);
     const temperatures = getDataForHours(data.hourly.temperature_2m, hourFrom, hourTo);
     const apparentTemperatures = getDataForHours(data.hourly.apparent_temperature, hourFrom, hourTo);
