@@ -15,7 +15,7 @@ async function getTemperatures(lat, long, startDate, days, hourFrom, hourTo){
     // apperantTemperature: <number> }
     const endDate = getEndDate(startDate, days);
     const url = getUrl(lat, long, startDate, endDate);
-    const response = fetch(url);
+    const response = await fetch(url);
     const data = await response.json();
     const dates = getDataForHours(data.hourly.time, hourFrom, hourTo);
     const temperatures = getDataForHours(data.hourly.temperature_2m, hourFrom, hourTo);
@@ -46,5 +46,5 @@ function getDataForHours(array, hourFrom, hourTo){
     })
 }
 
-getTemperatures(31.25, 34.79, 2023-05-23, 2, 12,  14).then((data) => console.log(data))
-.catch(error => console.log(error))
+getTemperatures(31.25, 34.79, 2023-05-23, 2, 12, 14).then((data) => console.log(data))
+.catch(error => console.log(error));
