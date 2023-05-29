@@ -1,4 +1,4 @@
-import { getEndDate, getISODatesStr } from "../util/date-functions.js";
+import { getEndDate, getISODateStr, getDaysBetweenDates } from "../util/date-functions.js";
 import { range } from "../util/number-functions.js";
 //constants
 const CITY_ID = 'city-id';
@@ -7,9 +7,9 @@ const DAYS_ID = 'days-id';
 const HOUR_FROM_ID = 'hour-from-id';
 const HOUR_TO_ID = 'hour-to-id';
 const FORM_ID = 'form-id';
-const PROMT_DAYS = 'forecast days';
-const PROMT_HOUR_TO = 'hour to';
-const PROMT_HOUR_FROM = 'hour from';
+const PROMPT_DAYS = "forecast days";
+const PROMPT_HOUR_TO = "hour to";
+const PROMPT_HOUR_FROM = "hour from";
 export default class WeatherForm {
     #formElement;
     #cityElement;
@@ -32,45 +32,50 @@ export default class WeatherForm {
         this.#setSelectOptions();
     }
     #cityHandler() {
-        this.#formData.city = this.#cityElement.value;
+        this.#formData.city=this.#cityElement.value;
     }
     #daysHandler() {
         const days = +this.#daysElement.value;
         this.#formData.days = days;
-        const maxDaysNew = this.#maxDays - days;
-        this.#dateElement.max = getEndDate(getISODatesStr(new Date()), maxDaysNew);
-        if(this.#formData.startDate != undefined && 
-            this.#formData.startDate > this.#dateElement.max){
-            delete this.#formData.startDate;
-            this.#dateElement.value = '';
-        }
+        const maxDaysNew = this.#maxDays - days
+        this.#dateElement.max = getEndDate(getISODateStr(new Date()), maxDaysNew);
+        if (this.#formData.startDate != undefined &&
+            this.#formData.startDate > this.#dateElement.max) {
+               delete this.#formData.startDate;
+               this.#dateElement.value = '';
+            }
+
     }
     #dateHandler() {
+        
         const dateStr = this.#dateElement.value;
         this.#formData.startDate = dateStr;
-
-        const daysBetween = getDaysBetweenDates(new Date(), new Date(dateStr));
+        
+        const daysBetween = getDaysBetweenDates(new Date(),new Date(dateStr));
         const maxDaysNew = this.#maxDays - daysBetween;
-        if(this.#formData.days == undefined || this.#formData.days > maxDaysNew){
+        if(this.#formData.days == undefined || this.#formData.days > maxDaysNew) {
             delete this.#formData.days
-            setOptionItems(this.#daysElement, range(0, maxDaysNew + 1), PROMT_DAYS);
+            setOptionItems(this.#daysElement, range(0, maxDaysNew + 1), PROMPT_DAYS);
         }
+        
     }
     #hourFromHandler() {
-        const hour = +this.#hourFromElement.value;
+        const hour = +this.#hourFromElement.value
         this.#formData.hourFrom = hour;
         if (this.#formData.hourTo == undefined || this.#formData.hourTo < hour) {
             delete this.#formData.hourTo
-            setOptionItems(this.#hourToElement, range(hour, 24), PROMT_HOUR_TO);
+            setOptionItems(this.#hourToElement, range(hour, 24), PROMPT_HOUR_TO);
         }
+        
     }
     #hourToHandler() {
         const hour = +this.#hourToElement.value
         this.#formData.hourTo = hour;
-        if(this.#formData.hourFrom == undefined || this.#formData.hourFrom > hour){
-            delete this.#formData.hourFrom;
-            setOptionItems(this.#hourFromElement, range(0, hour + 1), PROMT_HOUR_FROM);
+        if (this.#formData.hourFrom == undefined || this.#formData.hourFrom > hour) {
+            delete this.#formData.hourFrom
+            setOptionItems(this.#hourFromElement, range(0, hour + 1), PROMPT_HOUR_FROM)
         }
+        
     }
     #setHandlers() {
         this.#cityElement.onchange = this.#cityHandler.bind(this);
@@ -83,9 +88,9 @@ export default class WeatherForm {
             this.#setSelectOptions();
         }
     }
-    getDataFromForm(){
+    getDataFromForm() {
         return new Promise(resolve => {
-            this.#formElement.onchange = (event) => {
+            this.#formElement.onsubmit = (event) => {
                 event.preventDefault();
                 resolve(this.#formData);
             }
@@ -100,16 +105,16 @@ export default class WeatherForm {
         this.#hourToElement = document.getElementById(`${this.#parentId}-${HOUR_TO_ID}`);
     }
     #setSelectOptions() {
-        const minDate = getISODatesStr(new Date())
+        const minDate = getISODateStr(new Date())
         this.#dateElement.min = minDate;
         this.#dateElement.max = getEndDate(minDate, this.#maxDays);
         setOptionItems(this.#cityElement, this.#cities, 'select city');
-        setOptionItems(this.#daysElement, range(0, this.#maxDays + 1), "forecast days");
+        setOptionItems(this.#daysElement, range(0, this.#maxDays + 1), PROMPT_DAYS);
         setOptionItems(this.#hourFromElement, range(0, 24), 'hour from');
         setOptionItems(this.#hourToElement, range(0, 24), 'hour to');
 
     }
-    #buildForm() {
+    #buildForm(){
         const parentElement = document.getElementById(this.#parentId)
         parentElement.innerHTML = `
         <form id="${this.#parentId}-${FORM_ID}" class="form-control">
