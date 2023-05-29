@@ -8,7 +8,12 @@ export default class DataGrid {
         this.buildTableHeader(parentId, columns.map(c => c.headerName))
     }
     fillData(rowsData) {
-        this.#tBodyElement.innerHTML = rowsData.map(row => `<tr>${this.#keys.map(element => `<td>${row[element]}</td>`).join('')}</tr>`).join('');
+        this.#tBodyElement.innerHTML = rowsData.map(rd => this.#getRow(rd)).join('');
+    }
+    #getRow(obj) {
+        return `<tr>
+                   ${this.#keys.map(key => `<td>${obj[key]}</td>`).join('')}
+                 </tr>`
     }
     buildTableHeader(parentId, columnNames) {
         const tableSectionElement = document.getElementById(parentId);
