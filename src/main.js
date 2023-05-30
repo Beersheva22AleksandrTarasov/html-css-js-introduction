@@ -1,32 +1,55 @@
-import openMeteoConfig from './config/service-config.json' assert {type: 'json'};
-import OpenMeteoService from './service/OpenMeteoService.js';
-import DataGrid from './ui/DataGrid.js';
-import WeatherForm from './ui/WeatherForm.js';
-import { getEndDate } from './util/date-functions.js';
-//constants
-const columns = [
-    { field: 'date', headerName: 'Date' },
-    { field: 'time', headerName: 'Time' },
-    { field: 'temperature', headerName: 'Temperature' },
-    { field: 'apparentTemperature', headerName: 'Fealt Temp' }
+import CompanyService from "./service/CompanyService.js";
+import ApplicationBar from "./ui/ApplicationBar.js";
+import DataGrid from "./ui/DataGrid.js";
+import EmployeeForm from "./ui/EmployeeForm.js";
+import { getRandomEmployee } from "./util/random.js";
+import employeesConfig from "./config/employees-config.json" assert{type: 'json'};
+import statisticsConfig from "./config/statistics-config.json" assert{type: 'json'};
+//employee model
+//{id: number of 9 digits, name: string, birthYear: number, 
+//gender: female | male, salary: number, department: QA, Development, Audit, Accounting, Management}
+
+const sections = [
+    {title: "Employees", id: "employees-table-place"},
+    {title: "Add Employee", id: "employees-form-place"},
+    {title: "Statistics", id: "statistics-place"}
 ];
+const {minSalary, maxSalary, departments, minYear, maxYear} = employeesConfig;
+const {age, salary} = statisticsConfig;
+const statisticsIndex = sections.findIndex(s => s.title == "Statistics");
+const employeeColumns = [
+    {field: 'id', headerName: 'ID'},
+    {field: 'name', headerName: 'Name'},
+    {field: 'birthYear', headerName: 'Birth Year'},
+    {field: 'gender', headerName: 'Gender'},
+    {field: 'salary', headerName: 'Salary (ILS)'},
+    {field: 'department', headerName: 'Department'}
+];
+const statisticsColumns = [
+    {field: 'min', headerName: "Min value"},
+    {field: 'max', headerName: "Max value"},
+    {field: 'count', headerName: "Count"}
+]
 
-//objects
-const form = new WeatherForm("form-place",
-    Object.keys(openMeteoConfig.cities), openMeteoConfig.maxDays);
-const openMeteoService = new OpenMeteoService(openMeteoConfig.baseUrl);
-const table = new DataGrid("table-place", columns);
-
-async function run() {
-    while(true){
-        const fromFormData = await form.getDataFromForm();
-        const { startDate, days, hourFrom, hourTo, city } = fromFormData;
-        const {lat, long} = openMeteoConfig.cities[city];
-        const temperatures = await openMeteoService.getTemperatures(lat, long, startDate,
-            getEndDate(startDate, days), hourFrom, hourTo);
-            table.fillData(temperatures);
+const menu = new ApplicationBar("menu-place", sections, statisticsHandler);
+const companyService = new CompanyService();
+const employeeForm = new EmployeeForm("employees-form-place");
+const employeeTable = new DataGrid("employees-table-place", employeeColumns);
+const ageStatistics  = new DataGrid("ages-statistics-place", statisticsColumns);
+const salaryStatistics = new DataGrid("salary-statistics-place", statisticsColumns);
+function statisticsHandler(index){
+    if(index == statisticsIndex){
+        ageStatistics.fillData(companyService.getStatistics(age.field, age.interval));
+        salaryStatistics.fillData(companyService.getStatistics(salary.field, salary.interval));
     }
-} 
+}
+async function run(){
+    while(true){
+        await employeeForm.buttonHasPressed();
+        const employee = getRandomEmployee(minSalary, maxSalary, minYear, maxYear, departments);
+        const employeeAdded = companyService.addEmployee(employee);
+        employeeTable.insertRow(employeeAdded);
+    }
+    
+}
 run();
-
-

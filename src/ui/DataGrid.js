@@ -16,6 +16,9 @@ export default class DataGrid {
                    ${this.#keys.map(key => `<td>${obj[key]}</td>` ).join('')}
                  </tr>  `
     }
+    insertRow(obj){
+        this.#tBodyElement.innerHTML += this.#getRow(obj)
+    }
     #buildTableHeader(parentId, columnNames) {
         const tableSectionElement = document.getElementById(parentId);
         tableSectionElement.innerHTML =
