@@ -2,7 +2,9 @@ import { count } from "../util/number-functions.js";
 import { getRandomInt } from "../util/random.js";
 const minId = 100000;
 const maxId = 1000000
-
+//TODO by using setTimeout update the CompanyService code that
+// each public method returns Promise that after some timeout
+//in the resolved state
 export default class CompanyService {
     #employees;
     
@@ -13,7 +15,7 @@ export default class CompanyService {
     addEmployee(employee) {
         const id = this.#getId();
         this.#employees[id] = {...employee, id};
-        return this.#employees[id];
+        return getPromise(this.#employees[id], 200);
     }
     #getId(){
         let id;
@@ -23,17 +25,25 @@ export default class CompanyService {
         return id;
     }
     getStatistics(field, interval){
-        let array  = Object.values(this.#employees);
+        
+            let array  = Object.values(this.#employees);
         const currentYear = new Date().getFullYear();
         if(field == 'birthYear') {
             array = array.map(e => ({'age': currentYear - e.birthYear}));
             field = 'age';
         }
         const statisticsObj = count(array, field, interval);
-        return Object.entries(statisticsObj).map(e => {
+        return getPromise(Object.entries(statisticsObj).map(e => {
             const min = e[0] * interval;
             const max = min + interval - 1;
             return {min, max, count: e[1]};
-        })
+        }), 2000);
     }
+    getAllEmployees(){
+        return getPromise(Object.values(this.#employees), 2000)
+    }
+
+}
+function getPromise(state, timeout){
+    return new Promise(resolve => setTimeout(() => resolve(state), timeout))
 }
