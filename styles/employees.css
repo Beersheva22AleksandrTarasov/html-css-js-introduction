@@ -27,3 +27,8 @@
   left: 50%;
   transform: translate(-50%, -50%);
 }
+.radio-group{
+  display: flex;
+  flex-direction: row;
+  margin-top: 2vh;
+}
