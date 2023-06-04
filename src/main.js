@@ -6,14 +6,13 @@ import { getRandomEmployee } from "./util/random.js";
 import statisticsConfig from "./config/statistics-config.json" assert{type: 'json'}
 import employeesConfig from "./config/employees-config.json" assert{type: 'json'}
 import serviceConfig from "./config/service-config.json" assert{type: 'json'}
-
+import { range } from "./util/number-functions.js";
 import Spinner from "./ui/Spinner.js";
 import CompanyServiceRest from "./service/CompanyServiceRest.js";
 const N_EMPLOYEES = 100;
 //employee model
-//{id: number of 9 digits, name: string, birthYear: number, 
-//gender: female | male, salary: number, department: QA, Development, Audit, Accounting, Management}
-
+//{id: number of 9 digits, name: string, birthYear: number,
+// gender: female | male, salary: number, department: QA, Development, Audit, Accounting, Management}
 const sections = [
     { title: "Employees", id: "employees-table-place" },
     { title: "Add Employee", id: "employees-form-place" },
@@ -28,6 +27,8 @@ const employeeColumns = [
     { field: 'gender', headerName: 'Gender' },
     { field: 'salary', headerName: 'Salary (ILS)' },
     { field: 'department', headerName: 'Department' }
+
+
 ];
 const statisticsColumns = [
     { field: 'min', headerName: "Min value" },
@@ -36,29 +37,26 @@ const statisticsColumns = [
 ]
 //objects
 const menu = new ApplicationBar("menu-place", sections, menuHandler);
-const companyService = serviceConfig.baseUrl ? new CompanyServiceRest(serviceConfig.baseUrl) : new CompanyService();
+const companyService = serviceConfig.baseUrl ?new CompanyServiceRest(serviceConfig.baseUrl) : new CompanyService();
 const spinner = new Spinner("spinner-place");
-const employeeForm = new EmployeeForm("employees-form-place", employeesConfig);
+const employeeForm = new EmployeeForm("employees-form-place",employeesConfig);
 employeeForm.fillForm();
 const updateForm = new EmployeeForm("form-update-place", employeesConfig);
 updateForm.addHandler(async (empl) => {
-    const updateEmpl = await action(companyService.updateEmployee.bind(companyService, empl));
-    employeeTable.updateRow(updateEmpl);
-
+    const updatedEmpl = await action(companyService.updateEmployee.bind(companyService, empl));
+    employeeTable.updateRow(updatedEmpl);
+   
     updateForm.hideForm();
 });
-const employeeTable = new DataGrid("employees-table-place", employeeColumns, { title: "List of Employees", width: "80vw" },
-    [{ name: 'remove', callbackFn: removeEmployee }, { name: 'update', callbachFn: updateEmployee }]);
-const ageStatistics = new DataGrid("ages-statistics-place", statisticsColumns, { title: "Age Distribution", width: "30vw" });
-const salaryStatistics = new DataGrid("salary-statistics-place", statisticsColumns, { title: "Salary Distribution", width: "30vw" });
-
+const employeeTable = new DataGrid("employees-table-place", employeeColumns, {title: "List of Employees", width:"80vw"},
+ [{name: 'remove', callbackFn: removeEmployee}, {name: 'update', callbackFn: updateEmployee}]);
+const ageStatistics = new DataGrid("age-statistics-place", statisticsColumns, {title: "Age Distribution", width:"30vw"});
+const salaryStatistics = new DataGrid("salary-statistics-place", statisticsColumns, {title: "Salary Distribution", width:"30vw"});
 
 employeeForm.addHandler(async (employee) => {
-
+    
     await action(companyService.addEmployee.bind(companyService, employee));
-
 })
-
 async function menuHandler(index) {
     updateForm.hideForm();
     switch (index) {
@@ -69,16 +67,19 @@ async function menuHandler(index) {
             break;
         }
         case 2: {
-            const ageStatisticsData = await action(companyService
-                .getStatistics.bind(companyService, age.field, age.interval));
+            const ageStatisticsData = await action(companyService.
+                getStatistics.bind(companyService, age.field, age.interval));
             ageStatistics.fillData(ageStatisticsData);
 
-            const salaryStatisticsData = await action(companyService.getStatistics.bind(companyService,
-                salary.field, salary.interval));
+            const salaryStatisticsData =
+                await action(companyService.getStatistics.bind(companyService,
+                    salary.field, salary.interval));
             salaryStatistics.fillData(salaryStatisticsData);
+
             break;
         }
     }
+
 }
 
 async function action(serviceFn) {
@@ -86,28 +87,28 @@ async function action(serviceFn) {
     const res = await serviceFn();
     spinner.stop();
     return res;
+    
 }
-
 async function updateEmployee(id) {
     const empl = await companyService.getEmployee(id);
     updateForm.fillForm(empl);
 }
-
 async function removeEmployee(id) {
-    if (confirm(`Removing Employee?
-    You are going to remove employee with id=${id}`)) {
+    if(confirm(`Removing Employee?
+    You are going to remove employee with id=${id}`))
+    {
         await action(companyService.removeEmployee.bind(companyService, id));
-        employeeTable.removeRow(id)
-    }
+    employeeTable.removeRow(id)
 }
-
+}
 async function createRandomEmployees() {
     const employees = await companyService.getAllEmployees();
     if (employees.length < 5) {
-        for (let i = 0; i < N_EMPLOYEES; i++) {
+        for(let i = 0; i < N_EMPLOYEES; i++) {
             await companyService.addEmployee(getRandomEmployee(minSalary, maxSalary,
                 minYear, maxYear, departments));
         }
     }
-}
+    }
+   
 action(createRandomEmployees);
