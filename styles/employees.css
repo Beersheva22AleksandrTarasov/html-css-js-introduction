@@ -1,9 +1,9 @@
-.menu-section{
+.menu-section {
   display: flex;
   flex-direction: row;
   justify-content: space-around;
 }
-.active{
+.active {
   color: white;
   background-color: blue;
 }
@@ -20,6 +20,8 @@
     animation-name: spinner;
     animation-duration: 200ms;
     animation-iteration-count: infinite;
+
+  
 }
 #spinner-place {
   position: absolute;
@@ -27,8 +29,58 @@
   left: 50%;
   transform: translate(-50%, -50%);
 }
-.radio-group{
+.radio-group {
   display: flex;
   flex-direction: row;
   margin-top: 2vh;
 }
+
+form * {
+  margin-top: 2vh
+}
+[name] {
+  width: 25vw
+}
+[type="radio"] {
+  width: auto;
+  
+}
+.radio-control {
+  margin-right: 2vw;
+}
+th, td {
+  width: 10vw;
+  text-align: center;
+}
+table {
+ margin-top: 2vh;
+  width: 80%;
+  display:block;
+}
+thead {
+  margin-top: 2vh;
+  display: inline-block;
+  width: 80%;
+  height: 5vh;
+}
+tbody {
+  height: 50vh;
+  display: inline-block;
+  width: 100%;
+  overflow: auto;
+}
+caption {
+  font-weight: bold;
+}
+main {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: 100vw
+}
+.statistic-tables {
+  margin-top: 4vh;
+  display: flex;
+  justify-content: center;
+}
+
